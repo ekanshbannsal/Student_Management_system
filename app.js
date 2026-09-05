@@ -47,7 +47,7 @@ app.use(async (req, res, next) => {
 
 // View Engine Setup
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(process.cwd(), 'views'));
 
 // Body Parser Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -57,7 +57,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 
 // Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // Session Configuration with MongoStore
 const sessionSecret = process.env.SESSION_SECRET || 'student_management_system_default_secret_key_2026';
