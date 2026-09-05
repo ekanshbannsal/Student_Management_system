@@ -22,11 +22,26 @@ const { seedDatabase } = require('./seed');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for secure cookies behind Vercel / reverse proxies
+app.set('trust proxy', 1);
+
 // Connect to Database & Auto-seed sample records if empty
 connectDB().then(async () => {
   console.log('📦 Database initialized and ready.');
   if (process.env.NODE_ENV !== 'test') {
     await seedDatabase(false);
+  }
+}).catch(err => {
+  console.error('Database connection warning:', err.message);
+});
+
+// Ensure DB is connected before processing requests (critical for serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -96,8 +111,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
-if (process.env.NODE_ENV !== 'test') {
+// Start Server (only when run directly via node app.js, not when imported as serverless handler)
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`🚀 Student Management System server running at http://localhost:${PORT}`);
   });

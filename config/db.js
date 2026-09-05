@@ -35,6 +35,8 @@ function isPortReachable(port, host = '127.0.0.1', timeoutMs = 800) {
   });
 }
 
+let connectingPromise = null;
+
 const connectDB = async () => {
   // If already connected, resolve client and return
   if (mongoose.connection.readyState === 1) {
@@ -43,17 +45,22 @@ const connectDB = async () => {
     return mongoose.connection;
   }
 
+  // If connection is in progress, wait for it
+  if (connectingPromise) {
+    return connectingPromise;
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/student_management_db';
   const forceInMemory = process.env.USE_IN_MEMORY_DB === 'true';
 
   // Check if URI is local 127.0.0.1/localhost
   const isLocalUri = uri.includes('127.0.0.1:27017') || uri.includes('localhost:27017');
 
-  if (forceInMemory) {
+  if (forceInMemory && process.env.NODE_ENV !== 'production') {
     return await startInMemory();
   }
 
-  if (isLocalUri) {
+  if (isLocalUri && process.env.NODE_ENV !== 'production') {
     const isReachable = await isPortReachable(27017, '127.0.0.1', 600);
     if (!isReachable) {
       console.log('⚡ Local MongoDB port 27017 not detected. Starting high-performance in-memory MongoDB...');
@@ -61,18 +68,27 @@ const connectDB = async () => {
     }
   }
 
-  try {
-    const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 4000,
-    });
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    const client = mongoose.connection.getClient();
-    resolveClient(client);
-    return conn;
-  } catch (error) {
-    console.warn(`⚠️ Could not connect to MongoDB at ${uri}: ${error.message}`);
-    return await startInMemory();
-  }
+  connectingPromise = (async () => {
+    try {
+      const conn = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 8000,
+      });
+      console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+      const client = mongoose.connection.getClient();
+      resolveClient(client);
+      return conn;
+    } catch (error) {
+      connectingPromise = null;
+      if (process.env.NODE_ENV === 'production') {
+        console.error(`❌ MongoDB connection failed: ${error.message}`);
+        throw error;
+      }
+      console.warn(`⚠️ Could not connect to MongoDB at ${uri}: ${error.message}`);
+      return await startInMemory();
+    }
+  })();
+
+  return connectingPromise;
 };
 
 async function startInMemory() {

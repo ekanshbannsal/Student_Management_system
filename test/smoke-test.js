@@ -113,9 +113,12 @@ async function runTests() {
 
     // 3. User Registration
     console.log('\n3️⃣ Testing User Registration:');
+    const testUid = Date.now();
+    const testEmail = `tester_${testUid}@college.edu`;
+    const testRoll = `SMOKE-${testUid.toString().slice(-4)}`;
     const signupData = new URLSearchParams({
       name: 'Test Administrator',
-      email: 'tester@college.edu',
+      email: testEmail,
       password: 'password123',
       confirmPassword: 'password123',
     }).toString();
@@ -134,8 +137,8 @@ async function runTests() {
     console.log('\n5️⃣ Testing Student Creation:');
     const newStudentData = new URLSearchParams({
       name: 'Smoke Test Student',
-      rollNumber: 'SMOKE-001',
-      email: 'smoke.student@example.com',
+      rollNumber: testRoll,
+      email: `smoke_${testUid}@example.com`,
       phone: '9988776655',
       course: 'B.Tech',
       branch: 'Computer Science (CSE)',
@@ -150,15 +153,15 @@ async function runTests() {
     assert(res.statusCode === 302, 'POST /students/add redirects to student list');
 
     // Find student in DB
-    const student = await Student.findOne({ rollNumber: 'SMOKE-001' });
-    assert(student !== null, 'Student SMOKE-001 saved in MongoDB');
+    const student = await Student.findOne({ rollNumber: testRoll });
+    assert(student !== null, `Student ${testRoll} saved in MongoDB`);
     assert(student.name === 'Smoke Test Student', 'Student name matches input');
 
     // 6. View Student List & Detail
     console.log('\n6️⃣ Testing Student Directory & Profile:');
     res = await makeRequest({ path: '/students', method: 'GET' });
     assert(res.statusCode === 200, 'GET /students returns 200 OK');
-    assert(res.body.includes('SMOKE-001'), 'Student table includes SMOKE-001');
+    assert(res.body.includes(testRoll), `Student table includes ${testRoll}`);
 
     res = await makeRequest({ path: `/students/${student._id}`, method: 'GET' });
     assert(res.statusCode === 200, `GET /students/${student._id} returns 200 OK`);
@@ -168,7 +171,7 @@ async function runTests() {
     console.log('\n7️⃣ Testing Student Edit / Update:');
     const updateData = new URLSearchParams({
       name: 'Smoke Test Student Updated',
-      rollNumber: 'SMOKE-001',
+      rollNumber: testRoll,
       email: 'smoke.updated@example.com',
       phone: '9988776655',
       course: 'B.Tech',
