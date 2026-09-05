@@ -1,0 +1,195 @@
+<%- include('../partials/header') %>
+
+<div class="app-wrapper">
+  <!-- Sidebar -->
+  <%- include('../partials/sidebar') %>
+
+  <!-- Main Content Wrapper -->
+  <div class="app-main">
+    <!-- Navbar -->
+    <%- include('../partials/navbar', { pageTitle: 'Student Profile' }) %>
+
+    <!-- Page Content -->
+    <main class="page-container">
+      <!-- Flash Messages -->
+      <%- include('../partials/messages') %>
+
+      <!-- Top Back Navigation -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <a href="/students" class="btn btn-custom-secondary">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Back to All Students</span>
+        </a>
+        <div class="d-flex gap-2">
+          <a href="/students/<%= student._id %>/edit" class="btn btn-custom-primary">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Edit Profile</span>
+          </a>
+          <button 
+            type="button" 
+            class="btn btn-custom-danger"
+            data-bs-toggle="modal" 
+            data-bs-target="#deleteConfirmModal"
+            data-student-id="<%= student._id %>"
+            data-student-name="<%= student.name %>"
+            data-student-roll="<%= student.rollNumber %>"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            <span>Delete</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Professional Profile Hero Card -->
+      <div class="profile-hero-card">
+        <div class="d-flex flex-column flex-md-row align-items-md-center gap-4">
+          <div class="profile-avatar-large">
+            <%= student.name ? student.name.charAt(0).toUpperCase() : 'S' %>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+              <span class="badge bg-white text-dark fw-bold font-monospace px-3 py-1 rounded-pill">
+                ROLL: <%= student.rollNumber %>
+              </span>
+              <span class="badge bg-primary-subtle text-white border border-light-subtle rounded-pill px-3 py-1">
+                <%= student.course %>
+              </span>
+              <span class="badge bg-light text-dark rounded-pill px-3 py-1">
+                <%= student.year %>
+              </span>
+            </div>
+            <h1 class="display-6 fw-bold mb-1"><%= student.name %></h1>
+            <p class="text-white-50 mb-0">
+              <i class="fa-solid fa-graduation-cap me-1"></i> <%= student.branch %> &bull; <%= student.semester %> Semester
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Grid Cards -->
+      <div class="row g-4">
+        <!-- Academic Summary -->
+        <div class="col-lg-6">
+          <div class="custom-card h-100 mb-0">
+            <div class="card-header-clean">
+              <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>Academic Details</h3>
+            </div>
+            <div class="card-body-clean">
+              <div class="profile-detail-grid mt-0">
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Course / Degree</div>
+                  <p class="profile-detail-value"><%= student.course %></p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Branch / Specialization</div>
+                  <p class="profile-detail-value"><%= student.branch %></p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Academic Year</div>
+                  <p class="profile-detail-value"><%= student.year %></p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Current Semester</div>
+                  <p class="profile-detail-value"><%= student.semester %> Semester</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal & Contact Summary -->
+        <div class="col-lg-6">
+          <div class="custom-card h-100 mb-0">
+            <div class="card-header-clean">
+              <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-address-card text-success me-2"></i>Personal Information</h3>
+            </div>
+            <div class="card-body-clean">
+              <div class="profile-detail-grid mt-0">
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Email Address</div>
+                  <p class="profile-detail-value small">
+                    <a href="mailto:<%= student.email %>" class="text-primary text-decoration-none">
+                      <%= student.email %>
+                    </a>
+                  </p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Phone Number</div>
+                  <p class="profile-detail-value font-monospace"><%= student.phone %></p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Gender</div>
+                  <p class="profile-detail-value"><%= student.gender %></p>
+                </div>
+                <div class="profile-detail-item">
+                  <div class="profile-detail-label">Date of Birth</div>
+                  <p class="profile-detail-value">
+                    <%= student.dateOfBirth ? new Date(student.dateOfBirth).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Address Box -->
+              <div class="profile-detail-item mt-3">
+                <div class="profile-detail-label">Residential Address</div>
+                <p class="profile-detail-value small text-secondary"><%= student.address %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System & Database Metadata -->
+        <div class="col-12">
+          <div class="custom-card mb-0 bg-light">
+            <div class="card-body-clean d-flex flex-wrap align-items-center justify-content-between gap-3 text-muted small">
+              <div>
+                <span class="fw-bold text-dark">Record ID:</span>
+                <span class="font-monospace"><%= student._id %></span>
+              </div>
+              <div>
+                <span class="fw-bold text-dark">Enrolled On:</span>
+                <span><%= student.createdAt ? new Date(student.createdAt).toLocaleString() : 'N/A' %></span>
+              </div>
+              <div>
+                <span class="fw-bold text-dark">Last Modified:</span>
+                <span><%= student.updatedAt ? new Date(student.updatedAt).toLocaleString() : 'N/A' %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal Dialog -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-0 pb-0">
+        <div class="rounded-circle bg-danger-subtle p-3 text-danger me-2">
+          <i class="fa-solid fa-triangle-exclamation fs-4"></i>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-2">
+        <h5 class="modal-title fw-bold text-dark mb-2" id="deleteModalTitle">Confirm Student Deletion</h5>
+        <p class="text-muted mb-1">Are you sure you want to delete this student record from MongoDB?</p>
+        <p class="fw-bold text-dark fs-6" id="studentNameToDelete"><%= student.name %> (Roll: <%= student.rollNumber %>)</p>
+        <div class="alert alert-warning small py-2 mb-0">
+          <i class="fa-solid fa-circle-info me-1"></i> This action cannot be undone. All related records will be permanently removed.
+        </div>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
+        <button type="button" class="btn btn-custom-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteStudentForm" method="POST" action="/students/<%= student._id %>?_method=DELETE">
+          <button type="submit" class="btn btn-custom-danger px-4">
+            <i class="fa-solid fa-trash-can me-1"></i> Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

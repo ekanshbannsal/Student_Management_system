@@ -1,0 +1,233 @@
+<%- include('../partials/header') %>
+
+<div class="app-wrapper">
+  <!-- Sidebar -->
+  <%- include('../partials/sidebar') %>
+
+  <!-- Main Content Wrapper -->
+  <div class="app-main">
+    <!-- Navbar -->
+    <%- include('../partials/navbar', { pageTitle: 'Edit Student' }) %>
+
+    <!-- Page Content -->
+    <main class="page-container">
+      <!-- Flash Messages -->
+      <%- include('../partials/messages') %>
+
+      <!-- Header -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="fw-bold mb-1 text-dark">Edit Student Record</h2>
+          <p class="text-muted mb-0">Modify information for <strong><%= student.name %></strong> (Roll: <%= student.rollNumber %>).</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="/students/<%= student._id %>" class="btn btn-custom-secondary">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>View Profile</span>
+          </a>
+          <a href="/students" class="btn btn-custom-secondary">
+            <i class="fa-solid fa-list"></i>
+            <span>All Students</span>
+          </a>
+        </div>
+      </div>
+
+      <form action="/students/<%= student._id %>?_method=PUT" method="POST" novalidate>
+        <div class="row g-4">
+          <!-- Personal & Contact Information Card -->
+          <div class="col-lg-6">
+            <div class="custom-card h-100 mb-0">
+              <div class="card-header-clean">
+                <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-user-pen text-primary me-2"></i>Personal & Contact Details</h3>
+              </div>
+              <div class="card-body-clean">
+                <!-- Name -->
+                <div class="mb-3">
+                  <label for="name" class="form-label-custom">Student Full Name <span class="text-danger">*</span></label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    id="name" 
+                    class="form-control-custom" 
+                    value="<%= student.name %>"
+                    required
+                  >
+                </div>
+
+                <!-- Roll Number -->
+                <div class="mb-3">
+                  <label for="rollNumber" class="form-label-custom">Roll Number / Enrollment ID <span class="text-danger">*</span></label>
+                  <input 
+                    type="text" 
+                    name="rollNumber" 
+                    id="rollNumber" 
+                    class="form-control-custom font-monospace" 
+                    value="<%= student.rollNumber %>"
+                    required
+                  >
+                  <div class="form-text text-muted small">Unique identifier in MongoDB.</div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                  <label for="email" class="form-label-custom">Email Address <span class="text-danger">*</span></label>
+                  <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    class="form-control-custom" 
+                    value="<%= student.email %>"
+                    required
+                  >
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3">
+                  <label for="phone" class="form-label-custom">Phone Number <span class="text-danger">*</span></label>
+                  <input 
+                    type="tel" 
+                    name="phone" 
+                    id="phone" 
+                    class="form-control-custom" 
+                    value="<%= student.phone %>"
+                    required
+                  >
+                </div>
+
+                <div class="row g-3 mb-3">
+                  <!-- Gender -->
+                  <div class="col-sm-6">
+                    <label for="gender" class="form-label-custom">Gender <span class="text-danger">*</span></label>
+                    <select name="gender" id="gender" class="form-select-custom" required>
+                      <option value="Male" <%= student.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                      <option value="Female" <%= student.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                      <option value="Other" <%= student.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                  </div>
+
+                  <!-- Date of Birth -->
+                  <div class="col-sm-6">
+                    <label for="dateOfBirth" class="form-label-custom">Date of Birth <span class="text-danger">*</span></label>
+                    <% 
+                      let formattedDob = '';
+                      if (student.dateOfBirth) {
+                        try {
+                          formattedDob = new Date(student.dateOfBirth).toISOString().split('T')[0];
+                        } catch(e) {
+                          formattedDob = student.dateOfBirth;
+                        }
+                      }
+                    %>
+                    <input 
+                      type="date" 
+                      name="dateOfBirth" 
+                      id="dateOfBirth" 
+                      class="form-control-custom" 
+                      value="<%= formattedDob %>"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <!-- Address -->
+                <div>
+                  <label for="address" class="form-label-custom">Address <span class="text-danger">*</span></label>
+                  <textarea 
+                    name="address" 
+                    id="address" 
+                    rows="3" 
+                    class="form-control-custom" 
+                    required
+                  ><%= student.address %></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Academic Information Card -->
+          <div class="col-lg-6">
+            <div class="custom-card h-100 mb-0 d-flex flex-column justify-content-between">
+              <div>
+                <div class="card-header-clean">
+                  <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>Academic Enrollment Details</h3>
+                </div>
+                <div class="card-body-clean">
+                  <!-- Course -->
+                  <div class="mb-3">
+                    <label for="course" class="form-label-custom">Course / Degree Program <span class="text-danger">*</span></label>
+                    <select name="course" id="course" class="form-select-custom" required>
+                      <% const courses = ['B.Tech', 'BCA', 'B.Sc', 'MCA', 'M.Tech', 'BBA', 'MBA', 'Diploma']; %>
+                      <% courses.forEach(function(c) { %>
+                        <option value="<%= c %>" <%= student.course === c ? 'selected' : '' %>><%= c %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+
+                  <!-- Branch -->
+                  <div class="mb-3">
+                    <label for="branch" class="form-label-custom">Academic Branch / Department <span class="text-danger">*</span></label>
+                    <select name="branch" id="branch" class="form-select-custom" required>
+                      <% const branches = [
+                        'Computer Science (CSE)',
+                        'Information Technology (IT)',
+                        'Electronics & Communication (ECE)',
+                        'Mechanical Engineering (ME)',
+                        'Civil Engineering (CE)',
+                        'Electrical Engineering (EE)',
+                        'Artificial Intelligence & Data Science (AI/DS)',
+                        'Business Administration',
+                        'Other'
+                      ]; %>
+                      <% branches.forEach(function(b) { %>
+                        <option value="<%= b %>" <%= student.branch === b ? 'selected' : '' %>><%= b %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+
+                  <div class="row g-3 mb-3">
+                    <!-- Year -->
+                    <div class="col-sm-6">
+                      <label for="year" class="form-label-custom">Academic Year <span class="text-danger">*</span></label>
+                      <select name="year" id="year" class="form-select-custom" required>
+                        <option value="1st Year" <%= student.year === '1st Year' ? 'selected' : '' %>>1st Year</option>
+                        <option value="2nd Year" <%= student.year === '2nd Year' ? 'selected' : '' %>>2nd Year</option>
+                        <option value="3rd Year" <%= student.year === '3rd Year' ? 'selected' : '' %>>3rd Year</option>
+                        <option value="4th Year" <%= student.year === '4th Year' ? 'selected' : '' %>>4th Year</option>
+                      </select>
+                    </div>
+
+                    <!-- Semester -->
+                    <div class="col-sm-6">
+                      <label for="semester" class="form-label-custom">Current Semester <span class="text-danger">*</span></label>
+                      <select name="semester" id="semester" class="form-select-custom" required>
+                        <% const semesters = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']; %>
+                        <% semesters.forEach(function(s) { %>
+                          <option value="<%= s %>" <%= student.semester === s ? 'selected' : '' %>><%= s %></option>
+                        <% }); %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="alert alert-secondary small mb-0">
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i>
+                    Updates will automatically refresh the modification timestamp on this student.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Submission Buttons -->
+              <div class="p-4 border-top bg-light d-flex justify-content-end gap-2">
+                <a href="/students/<%= student._id %>" class="btn btn-custom-secondary">Cancel</a>
+                <button type="submit" class="btn btn-custom-primary px-4">
+                  <i class="fa-solid fa-check me-1"></i> Update Student Record
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

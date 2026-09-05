@@ -1,0 +1,71 @@
+<!-- Mobile Backdrop -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- Sidebar Navigation -->
+<aside class="app-sidebar" id="appSidebar">
+  <!-- Brand Header -->
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+    <div class="d-flex align-items-center">
+      <h1 class="brand-text">EduManager</h1>
+      <span class="brand-badge">PRO</span>
+    </div>
+  </div>
+
+  <!-- Navigation Links -->
+  <div class="sidebar-nav">
+    <div class="nav-section-title">Main Menu</div>
+    
+    <a href="/dashboard" class="nav-item-link <%= currentPath === '/dashboard' ? 'active' : '' %>">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="/students" class="nav-item-link <%= currentPath === '/students' && !currentPath.includes('/add') ? 'active' : '' %>">
+      <i class="fa-solid fa-users"></i>
+      <span>All Students</span>
+    </a>
+
+    <a href="/students/add" class="nav-item-link <%= currentPath === '/students/add' ? 'active' : '' %>">
+      <i class="fa-solid fa-user-plus"></i>
+      <span>Add Student</span>
+    </a>
+
+    <a href="/students?search=" class="nav-item-link">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Search Students</span>
+    </a>
+
+    <div class="nav-section-title mt-4">Account & Settings</div>
+
+    <a href="/profile" class="nav-item-link <%= currentPath === '/profile' ? 'active' : '' %>">
+      <i class="fa-solid fa-id-badge"></i>
+      <span>Profile</span>
+    </a>
+
+    <a href="/logout" class="nav-item-link text-danger">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+
+  <!-- Bottom User Card -->
+  <% if (currentUser) { %>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <div class="user-avatar-sm">
+          <%= currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+        </div>
+        <div class="user-info-text">
+          <p class="user-info-name"><%= currentUser.name %></p>
+          <p class="user-info-role">Administrator</p>
+        </div>
+        <a href="/profile" title="View Profile" class="text-muted text-decoration-none ms-1">
+          <i class="fa-solid fa-gear"></i>
+        </a>
+      </div>
+    </div>
+  <% } %>
+</aside>

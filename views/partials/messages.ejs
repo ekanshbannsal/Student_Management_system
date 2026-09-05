@@ -1,0 +1,52 @@
+<% if (typeof success_msg !== 'undefined' && success_msg.length > 0) { %>
+  <div class="alert-custom alert-custom-success alert-auto-dismiss" role="alert">
+    <i class="fa-solid fa-circle-check fs-5"></i>
+    <div class="flex-grow-1"><%= success_msg %></div>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="this.parentElement.remove()"></button>
+  </div>
+<% } %>
+
+<% if (typeof error_msg !== 'undefined' && error_msg.length > 0) { %>
+  <div class="alert-custom alert-custom-danger alert-auto-dismiss" role="alert">
+    <i class="fa-solid fa-circle-exclamation fs-5"></i>
+    <div class="flex-grow-1"><%= error_msg %></div>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="this.parentElement.remove()"></button>
+  </div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error.length > 0) { %>
+  <div class="alert-custom alert-custom-danger alert-auto-dismiss" role="alert">
+    <i class="fa-solid fa-circle-exclamation fs-5"></i>
+    <div class="flex-grow-1"><%= error %></div>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="this.parentElement.remove()"></button>
+  </div>
+<% } %>
+
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <div class="alert-custom alert-custom-danger" role="alert">
+    <i class="fa-solid fa-triangle-exclamation fs-5 align-self-start mt-1"></i>
+    <div class="flex-grow-1">
+      <div class="fw-bold mb-1">Please correct the following errors:</div>
+      <ul class="mb-0 ps-3">
+        <% errors.forEach(function(err) { %>
+          <li><%= err.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="this.parentElement.remove()"></button>
+  </div>
+<% } %>
+
+<% if (typeof passwordErrors !== 'undefined' && passwordErrors.length > 0) { %>
+  <div class="alert-custom alert-custom-danger" role="alert">
+    <i class="fa-solid fa-triangle-exclamation fs-5 align-self-start mt-1"></i>
+    <div class="flex-grow-1">
+      <ul class="mb-0 ps-3">
+        <% passwordErrors.forEach(function(err) { %>
+          <li><%= err.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="this.parentElement.remove()"></button>
+  </div>
+<% } %>

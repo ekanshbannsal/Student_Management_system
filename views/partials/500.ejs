@@ -1,0 +1,19 @@
+<%- include('header') %>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light p-4">
+  <div class="text-center" style="max-width: 550px;">
+    <div class="display-1 fw-bold text-danger mb-2">500</div>
+    <h2 class="fw-bold text-dark mb-3">Internal Server Error</h2>
+    <p class="text-muted mb-4">An unexpected server error occurred while processing your request. Please try again later or contact support.</p>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="text-start bg-white p-3 rounded-3 border mb-4 font-monospace small text-danger overflow-auto" style="max-height: 200px;">
+        <%= error.message || error %>
+      </div>
+    <% } %>
+    <a href="/dashboard" class="btn btn-custom-primary">
+      <i class="fa-solid fa-house me-2"></i>Return to Safety
+    </a>
+  </div>
+</div>
+
+<%- include('footer') %>

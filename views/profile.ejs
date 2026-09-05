@@ -1,0 +1,116 @@
+<%- include('partials/header') %>
+
+<div class="app-wrapper">
+  <!-- Sidebar -->
+  <%- include('partials/sidebar') %>
+
+  <!-- Main Content Wrapper -->
+  <div class="app-main">
+    <!-- Navbar -->
+    <%- include('partials/navbar', { pageTitle: 'Administrator Profile' }) %>
+
+    <!-- Page Content -->
+    <main class="page-container">
+      <!-- Flash Messages -->
+      <%- include('partials/messages') %>
+
+      <div class="row g-4">
+        <!-- Profile Overview Card -->
+        <div class="col-lg-5">
+          <div class="custom-card">
+            <div class="card-header-clean">
+              <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-id-badge text-primary me-2"></i>Account Details</h3>
+              <span class="badge-soft badge-soft-success">Active</span>
+            </div>
+            <div class="card-body-clean text-center py-4">
+              <div class="user-avatar-sm mx-auto mb-3" style="width: 72px; height: 72px; font-size: 1.75rem;">
+                <%= user.name ? user.name.charAt(0).toUpperCase() : 'A' %>
+              </div>
+              <h4 class="fw-bold text-dark mb-1"><%= user.name %></h4>
+              <p class="text-muted small mb-3"><%= user.email %></p>
+              <div class="badge-soft badge-soft-primary px-3 py-1 mb-4">Portal Administrator</div>
+
+              <div class="text-start border-top pt-3">
+                <div class="d-flex justify-content-between py-2 border-bottom small">
+                  <span class="text-muted">User ID</span>
+                  <span class="font-monospace text-dark"><%= user._id %></span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom small">
+                  <span class="text-muted">Account Registered</span>
+                  <span class="text-dark fw-semibold">
+                    <%= user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A' %>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between py-2 small">
+                  <span class="text-muted">Role</span>
+                  <span class="text-dark fw-semibold">Full Access</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security & Change Password -->
+        <div class="col-lg-7">
+          <div class="custom-card">
+            <div class="card-header-clean">
+              <h3 class="h6 mb-0 fw-bold"><i class="fa-solid fa-lock text-warning me-2"></i>Change Password</h3>
+            </div>
+            <div class="card-body-clean">
+              <p class="text-muted small mb-4">Ensure your account is using a secure password of at least 6 characters.</p>
+
+              <form action="/profile/change-password" method="POST">
+                <div class="mb-3">
+                  <label for="currentPassword" class="form-label-custom">Current Password</label>
+                  <input 
+                    type="password" 
+                    name="currentPassword" 
+                    id="currentPassword" 
+                    class="form-control-custom" 
+                    placeholder="Enter current password" 
+                    required
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label for="newPassword" class="form-label-custom">New Password</label>
+                  <input 
+                    type="password" 
+                    name="newPassword" 
+                    id="newPassword" 
+                    class="form-control-custom" 
+                    placeholder="Minimum 6 characters" 
+                    minlength="6"
+                    required
+                  >
+                </div>
+
+                <div class="mb-4">
+                  <label for="confirmNewPassword" class="form-label-custom">Confirm New Password</label>
+                  <input 
+                    type="password" 
+                    name="confirmNewPassword" 
+                    id="confirmNewPassword" 
+                    class="form-control-custom" 
+                    placeholder="Re-enter new password" 
+                    minlength="6"
+                    required
+                  >
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-custom-primary">
+                    <i class="fa-solid fa-check me-1"></i>
+                    <span>Update Password</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

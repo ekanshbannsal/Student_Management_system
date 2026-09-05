@@ -1,0 +1,112 @@
+<%- include('../partials/header') %>
+
+<div class="min-vh-100 d-flex flex-column justify-content-between" style="background: radial-gradient(circle at top right, #e0e7ff 0%, #f8fafc 50%, #f1f5f9 100%);">
+  <!-- Top Simple Navigation -->
+  <header class="py-4 px-4 px-md-5 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-2">
+      <div class="brand-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <span class="fs-4 fw-bold text-dark">EduManager</span>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/login" class="btn btn-outline-primary rounded-pill px-4 fw-semibold">Login</a>
+      <a href="/signup" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm">Sign Up</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container py-5 my-auto">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 text-center text-lg-start">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white shadow-xs border mb-3">
+          <span class="badge bg-primary rounded-pill">v1.0</span>
+          <span class="small fw-semibold text-muted">College & University Management</span>
+        </div>
+        <h1 class="display-4 fw-extrabold text-dark mb-3 tracking-tight" style="line-height: 1.15; font-weight: 800;">
+          Student Management <span class="text-primary">System</span>
+        </h1>
+        <p class="lead text-secondary mb-4 fs-5" style="max-width: 520px;">
+          Manage your students easily and efficiently. Track enrollments, view real-time college demographics, and streamline administrative workflows.
+        </p>
+
+        <div class="d-flex flex-column flex-sm-row align-items-center gap-3 justify-content-center justify-content-lg-start mb-4">
+          <a href="/login" class="btn btn-primary btn-lg rounded-pill px-5 py-3 shadow-lg fw-bold d-flex align-items-center gap-2">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Login to Portal</span>
+          </a>
+          <a href="/signup" class="btn btn-outline-secondary btn-lg rounded-pill px-4 py-3 bg-white fw-bold d-flex align-items-center gap-2">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Create Account</span>
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 pt-3 border-top justify-content-center justify-content-lg-start text-muted small">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-success"></i> Real-time MongoDB Analytics
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-primary"></i> Secure bcrypt Auth
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-bolt text-warning"></i> Fast Filtering
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="position-relative">
+          <div class="card border-0 shadow-xl rounded-4 overflow-hidden p-4 bg-white" style="border: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary-subtle p-2 text-primary">
+                  <i class="fa-solid fa-chart-pie fs-5"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0 fw-bold">Live Portal Preview</h5>
+                  <small class="text-muted">Interactive College Overview</small>
+                </div>
+              </div>
+              <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 fw-semibold">Live System</span>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-6">
+                <div class="p-3 rounded-3 bg-light border">
+                  <div class="small text-muted mb-1">Total Enrolled</div>
+                  <div class="h3 fw-bold text-dark mb-0">125+</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 rounded-3 bg-light border">
+                  <div class="small text-muted mb-1">Active Branches</div>
+                  <div class="h3 fw-bold text-primary mb-0">8</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-3 border bg-light d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3">
+                <div class="user-avatar-sm bg-primary text-white">RS</div>
+                <div>
+                  <div class="fw-bold small">Rahul Sharma</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">Roll: 1023 • B.Tech (CSE)</div>
+                </div>
+              </div>
+              <span class="badge-soft badge-soft-success">Enrolled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Notice -->
+  <footer class="py-4 text-center text-muted small border-top bg-white">
+    <div class="container">
+      &copy; <%= new Date().getFullYear() %> Student Management System. Built with Node.js, Express, EJS & MongoDB.
+    </div>
+  </footer>
+</div>
+
+<%- include('../partials/footer') %>

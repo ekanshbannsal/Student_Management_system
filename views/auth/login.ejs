@@ -1,0 +1,112 @@
+<%- include('../partials/header') %>
+
+<div class="auth-wrapper">
+  <!-- Left Side Hero -->
+  <div class="auth-sidebar-hero">
+    <div class="auth-hero-header">
+      <div class="brand-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <h2 class="fs-4 fw-bold mb-0 text-white">EduManager</h2>
+    </div>
+
+    <div class="auth-hero-body">
+      <h1 class="auth-hero-title">Student Management Portal</h1>
+      <p class="auth-hero-desc">
+        Welcome to your administrative command center. Oversee admissions, view student records, track branch statistics, and manage profiles with ease.
+      </p>
+
+      <ul class="auth-features-list">
+        <li><i class="fa-solid fa-circle-check"></i> Complete Student CRUD Operations</li>
+        <li><i class="fa-solid fa-circle-check"></i> Real-time MongoDB Branch & Gender Analytics</li>
+        <li><i class="fa-solid fa-circle-check"></i> Instant Search & Multi-criteria Filtering</li>
+        <li><i class="fa-solid fa-circle-check"></i> Secure bcrypt Password Hashing</li>
+      </ul>
+    </div>
+
+    <div class="text-white-50 small">
+      &copy; <%= new Date().getFullYear() %> College Administrative System.
+    </div>
+  </div>
+
+  <!-- Right Side Form -->
+  <div class="auth-form-side">
+    <div class="auth-card-inner">
+      <div class="d-flex align-items-center gap-2 mb-4 d-lg-none">
+        <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span class="fs-5 fw-bold text-dark">EduManager</span>
+      </div>
+
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-subtitle">Please enter your credentials to access the portal.</p>
+
+      <!-- Alert Messages -->
+      <%- include('../partials/messages') %>
+
+      <!-- Login Form -->
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label-custom">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input 
+              type="email" 
+              name="email" 
+              id="email" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="admin@college.edu" 
+              value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>"
+              required 
+              autofocus
+            >
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="password" class="form-label-custom mb-0">Password</label>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="••••••••" 
+              required
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom-primary w-100 justify-content-center py-3 fs-6 mb-3">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Sign In to Dashboard</span>
+        </button>
+      </form>
+
+      <div class="text-center text-muted small mt-4">
+        Don't have an account yet? 
+        <a href="/signup" class="fw-bold text-primary">Create an account</a>
+      </div>
+
+      <!-- Quick Demo Credentials Hint -->
+      <div class="card mt-4 bg-light border-0 p-3 rounded-3 text-muted small">
+        <div class="d-flex align-items-center gap-2 mb-1 text-dark fw-bold">
+          <i class="fa-solid fa-lightbulb text-warning"></i>
+          <span>Demo Credentials (after seeding)</span>
+        </div>
+        <div>Email: <code class="text-primary">admin@college.edu</code></div>
+        <div>Password: <code class="text-primary">admin123</code></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

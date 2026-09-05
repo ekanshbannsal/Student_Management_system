@@ -1,0 +1,136 @@
+<%- include('../partials/header') %>
+
+<div class="auth-wrapper">
+  <!-- Left Side Hero -->
+  <div class="auth-sidebar-hero">
+    <div class="auth-hero-header">
+      <div class="brand-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <h2 class="fs-4 fw-bold mb-0 text-white">EduManager</h2>
+    </div>
+
+    <div class="auth-hero-body">
+      <h1 class="auth-hero-title">Start Managing Your Students Today</h1>
+      <p class="auth-hero-desc">
+        Set up your administrator account in less than a minute. Gain full visibility into your college department, courses, and student performance.
+      </p>
+
+      <ul class="auth-features-list">
+        <li><i class="fa-solid fa-circle-check"></i> Enterprise-grade security with hashed passwords</li>
+        <li><i class="fa-solid fa-circle-check"></i> Scalable MongoDB database architecture</li>
+        <li><i class="fa-solid fa-circle-check"></i> Instant deployment and ready-to-use workflows</li>
+      </ul>
+    </div>
+
+    <div class="text-white-50 small">
+      &copy; <%= new Date().getFullYear() %> College Administrative System.
+    </div>
+  </div>
+
+  <!-- Right Side Form -->
+  <div class="auth-form-side">
+    <div class="auth-card-inner">
+      <div class="d-flex align-items-center gap-2 mb-4 d-lg-none">
+        <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span class="fs-5 fw-bold text-dark">EduManager</span>
+      </div>
+
+      <h2 class="auth-title">Create an Account</h2>
+      <p class="auth-subtitle">Register administrator details to begin managing student records.</p>
+
+      <!-- Alert Messages -->
+      <%- include('../partials/messages') %>
+
+      <!-- Signup Form -->
+      <form action="/signup" method="POST" id="signupForm" novalidate>
+        <div class="mb-3">
+          <label for="name" class="form-label-custom">Full Name</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            <input 
+              type="text" 
+              name="name" 
+              id="name" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="Prof. John Doe" 
+              value="<%= typeof formData !== 'undefined' && formData.name ? formData.name : '' %>"
+              required 
+              autofocus
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label-custom">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input 
+              type="email" 
+              name="email" 
+              id="email" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="faculty@college.edu" 
+              value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label-custom">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="Minimum 6 characters" 
+              required
+              minlength="6"
+            >
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="confirmPassword" class="form-label-custom">Confirm Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="fa-solid fa-shield-halved"></i>
+            </span>
+            <input 
+              type="password" 
+              name="confirmPassword" 
+              id="confirmPassword" 
+              class="form-control-custom border-start-0 ps-0" 
+              placeholder="Re-enter your password" 
+              required
+              minlength="6"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom-primary w-100 justify-content-center py-3 fs-6 mb-3">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Create My Account</span>
+        </button>
+      </form>
+
+      <div class="text-center text-muted small mt-4">
+        Already have an account? 
+        <a href="/login" class="fw-bold text-primary">Log in here</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
