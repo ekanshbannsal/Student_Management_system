@@ -50,6 +50,10 @@ const connectDB = async () => {
     return connectingPromise;
   }
 
+  if (!process.env.MONGODB_URI && (process.env.NODE_ENV === 'production' || process.env.VERCEL)) {
+    throw new Error('Database Error: MONGODB_URI is missing in Vercel Environment Variables! Please add MONGODB_URI in your Vercel Project Settings > Environment Variables.');
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/student_management_db';
   const forceInMemory = process.env.USE_IN_MEMORY_DB === 'true';
 

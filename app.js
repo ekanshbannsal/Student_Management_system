@@ -67,12 +67,19 @@ app.use(
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      clientPromise,
-      collectionName: 'sessions',
-      ttl: 24 * 60 * 60, // 1 day
-      autoRemove: 'native',
-    }),
+    store: process.env.MONGODB_URI
+      ? MongoStore.create({
+          mongoUrl: process.env.MONGODB_URI,
+          collectionName: 'sessions',
+          ttl: 24 * 60 * 60, // 1 day
+          autoRemove: 'native',
+        })
+      : MongoStore.create({
+          clientPromise,
+          collectionName: 'sessions',
+          ttl: 24 * 60 * 60, // 1 day
+          autoRemove: 'native',
+        }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       httpOnly: true,
@@ -103,10 +110,10 @@ app.use((req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Server error:', err.stack);
+  console.error('Server error:', err.stack || err);
   res.status(500).render('partials/500', {
     title: '500 - Server Error',
-    error: process.env.NODE_ENV === 'production' ? null : err,
+    error: err,
     currentUser: req.session ? req.session.user : null,
   });
 });
